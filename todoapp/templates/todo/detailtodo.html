@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% block title %}
+Todo Details
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="card-title">{{ todo.title }}</h1>
+                    <p class="card-text"><strong>Description:</strong> {{ todo.description }}</p>
+                    <p class="card-text"><strong>Completed:</strong> {{ todo.completed }}</p>
+                    <p class="card-text"><strong>Duration:</strong> {{ todo.duration }}</p>
+                    <p class="card-text"><strong>Importance:</strong> {{ todo.importance }}</p>
+                    <a href="{% url 'updatetodo' todo_id=todo.id %}" class="btn btn-primary">Update</a>
+                    <a href="{% url 'deletetodo' todo_id=todo.id %}" class="btn btn-danger ms-2">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

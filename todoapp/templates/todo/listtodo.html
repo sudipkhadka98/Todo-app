@@ -1,0 +1,79 @@
+{% extends 'main.html' %}
+
+{% block title %}
+Home Page
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0">Todo List</h1>
+        <a href="{% url 'createtodo' %}" class="btn btn-primary">Create Todo</a>
+    </div>
+
+    <!-- Search Form -->
+    <form method="GET" action="{% url 'index' %}" class="border border-primary rounded p-4 mb-4">
+        <h4 class="mb-4">Search Todos</h4>
+        
+        <div class="mb-3">
+            <label for="q" class="form-label">Search Todo</label>
+            <input type="text" id="q" name="q" class="form-control" value="{{ request.GET.q }}" placeholder="Search Todo">
+        </div>
+        
+        <div class="mb-3">
+            <label for="completed" class="form-label">Completed</label>
+            <select id="completed" name="completed" class="form-select">
+                <option value="all" {% if request.GET.completed == "all" %}selected{% endif %}>All</option>
+                <option value="true" {% if request.GET.completed == "true" %}selected{% endif %}>Completed</option>
+                <option value="false" {% if request.GET.completed == "false" %}selected{% endif %}>Not Completed</option>
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="importance" class="form-label">Importance</label>
+            <select id="importance" name="importance" class="form-select">
+                <option value="all" {% if request.GET.importance == "all" %}selected{% endif %}>All</option>
+                <option value="HIGH" {% if request.GET.importance == "HIGH" %}selected{% endif %}>High</option>
+                <option value="MEDIUM" {% if request.GET.importance == "MEDIUM" %}selected{% endif %}>Medium</option>
+                <option value="LOW" {% if request.GET.importance == "LOW" %}selected{% endif %}>Low</option>
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="min_duration" class="form-label">Min Duration</label>
+            <input type="number" id="min_duration" name="min_duration" class="form-control" value="{{ request.GET.min_duration }}" placeholder="Min Duration">
+        </div>
+        
+        <div class="mb-3">
+            <label for="max_duration" class="form-label">Max Duration</label>
+            <input type="number" id="max_duration" name="max_duration" class="form-control" value="{{ request.GET.max_duration }}" placeholder="Max Duration">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <!-- Todo List -->
+    <div class="row">
+        {% for todo in todo_data %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ todo.title }}</h5>
+                    <p class="card-text">{{ todo.description }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'detailtodo' todo_id=todo.id %}" class="btn btn-outline-primary">View</a>
+                        <a href="{% url 'updatetodo' todo_id=todo.id %}" class="btn btn-primary">Update</a>
+                        <a href="{% url 'deletetodo' todo_id=todo.id %}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>No todos found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
